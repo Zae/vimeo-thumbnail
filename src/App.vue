@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import VimeoInfo from './components/VimeoInfo.vue'
+import VimeoInfo from './components/VimeoInfo.vue';
 
 export default {
     components: {
