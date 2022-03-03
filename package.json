@@ -1,0 +1,25 @@
+{
+  "name": "vimeo-info",
+  "private": true,
+  "version": "0.0.0",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@digitalnatives/button": "^3.0.1",
+    "@digitalnatives/form-field": "^3.0.1",
+    "@digitalnatives/form-input": "^3.2.0",
+    "@digitalnatives/icon": "^4.1.0",
+    "axios": "^0.26.0",
+    "lodash": "^4.17.21",
+    "vue": "^2.6.0"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^2.2.0",
+    "vite": "^2.8.0",
+    "vite-plugin-vue2": "^1.9.3",
+    "vue-template-compiler": "^2.6.14"
+  }
+}
