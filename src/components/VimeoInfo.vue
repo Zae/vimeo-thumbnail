@@ -1,14 +1,14 @@
 <template>
     <section>
         <h1 class="app__title">vimeo poster image</h1>
-        <input id="vimeo_id" type="text" inputmode="text" v-model="vimeoId" placeholder="your vimeo url" @change="getThumbnail">
+        <input id="vimeo_id" type="text" inputmode="text" v-model="vimeo" placeholder="your vimeo url">
         <div class="grid">
-            <input id="width" type="number" inputmode="numeric" v-model="width" placeholder="1920">
+            <input id="width" type="number" inputmode="numeric" v-model="width" placeholder="1920" step="100">
             x
-            <input id="height" type="number" inputmode="numeric" v-model="height" placeholder="1080">
+            <input id="height" type="number" inputmode="numeric" v-model="height" placeholder="1080" step="100">
         </div>
         <picture :style="`aspect-ratio: ${width} / ${height}`">
-            <span v-if="loading" class="loading">
+            <span v-if="isLoading" class="loading">
                 <svg width="198" height="198" viewBox="0 0 198 198" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M99 1V40.2" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                     <path d="M99 157.8V197" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -24,7 +24,11 @@
             <span v-else-if="!thumbnailSized && !tried">?</span>
             <span v-else class="state">wrong</span>
         </picture>
-        <button id="thumbnailSize">{{ thumbnailSized }}asdasdas</button>
+        <button
+            id="thumbnailSize"
+            v-clipboard:copy="thumbnailSized"
+            v-clipboard:success="onCopy"
+        >{{ thumbnailSized }}</button>
     </section>
 </template>
 
@@ -59,6 +63,9 @@ export default {
         async onClick() {
             const { data: { thumbnail_url } } = await get(`https://vimeo.com/api/oembed.json?url=https://vimeo.com/${this.vimeoId}`);
             this.thumbnail_url = thumbnail_url ?? '';
+        },
+        onCopy() {
+            this.$toast.success('Copied to clipboard!');
         }
     },
     computed: {
