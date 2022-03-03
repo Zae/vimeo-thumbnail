@@ -52,7 +52,7 @@ const VIMEOREGEX = /^(\d+)|https:\/\/vimeo\.com\/(\d+)$/ig;
 export default {
     data() {
         return {
-            vimeo: '467336002',
+            vimeo: '',
             width: 1920,
             height: 1080,
             thumbnail_url: '',
