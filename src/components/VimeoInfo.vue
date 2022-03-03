@@ -1,114 +1,35 @@
 <template>
-  <section>
-      <header>
-          <DnFormField
-            :required="true"
-          >
-              <template v-slot:label>
-                  <label for="vimeo">
-                      Vimeo URL / ID
-                  </label>
-              </template>
-
-              <template v-slot:description>
-                  DE URL VAN DE VIMEO VIDEO
-              </template>
-
-              <div> <!-- v-slot:default -->
-                  <DnInput
-                      id="vimeo_id"
-                      type="text"
-                      inputmode="text"
-                      v-model="vimeo"
-                  >
-                  </DnInput>
-              </div>
-          </DnFormField>
-
-          <DnFormField
-            :required="true"
-          >
-              <template v-slot:label>
-                  <label for="vimeo_id">
-                      Width
-                  </label>
-              </template>
-
-              <template v-slot:description>
-                  De gewenste breedte van de thumbnail
-              </template>
-
-              <div> <!-- v-slot:default -->
-                  <DnInput
-                      id="width"
-                      type="number"
-                      inputmode="numeric"
-                      v-model="width"
-                  >
-                  </DnInput>
-              </div>
-          </DnFormField>
-
-          <DnFormField
-            :required="true"
-          >
-              <template v-slot:label>
-                  <label for="height">
-                      Height
-                  </label>
-              </template>
-
-              <template v-slot:description>
-                  De gewenste height van de thumbnail
-              </template>
-
-              <div> <!-- v-slot:default -->
-                  <DnInput
-                      id="height"
-                      type="number"
-                      inputmode="numeric"
-                      v-model="height"
-                  >
-                  </DnInput>
-              </div>
-          </DnFormField>
-      </header>
-
-      <article v-if="thumbnailSized">
-          <DnFormField
-              :required="true"
-              :readonly="true"
-          >
-              <template v-slot:label>
-                  <label for="height">
-                      URL
-                  </label>
-              </template>
-
-              <div> <!-- v-slot:default -->
-                  <DnInput
-                      @focus="onFocus"
-                      :readonly="true"
-                      id="thumbnailSize"
-                      type="text"
-                      inputmode="text"
-                      v-model="thumbnailSized"
-                  >
-                  </DnInput>
-              </div>
-          </DnFormField>
-
-          <img :src="thumbnailSized" style="max-width: 100%" />
-      </article>
-  </section>
-
+    <section>
+        <h1 class="app__title">vimeo poster image</h1>
+        <input id="vimeo_id" type="text" inputmode="text" v-model="vimeoId" placeholder="your vimeo url" @change="getThumbnail">
+        <div class="grid">
+            <input id="width" type="number" inputmode="numeric" v-model="width" placeholder="1920">
+            x
+            <input id="height" type="number" inputmode="numeric" v-model="height" placeholder="1080">
+        </div>
+        <picture :style="`aspect-ratio: ${width} / ${height}`">
+            <span v-if="true" class="loading">
+                <svg width="198" height="198" viewBox="0 0 198 198" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M99 1V40.2" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M99 157.8V197" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M168.287 29.7145L140.553 57.4485" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M57.448 140.552L29.714 168.286" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M197 99H157.8" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M40.2 99H0.99995" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M168.287 168.286L140.553 140.552" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M57.448 57.4485L29.714 29.7145" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </span>
+            <img v-else-if="thumbnailSized" :src="thumbnailSized" />
+            <span v-else-if="!thumbnailSized && !tried">?</span>
+            <span v-else class="state">wrong</span>
+        </picture>
+        <button id="thumbnailSize">{{ thumbnailSized }}asdasdas</button>
+    </section>
 </template>
 
 <script>
 import Vue from 'vue';
-import DnFormField from '@digitalnatives/form-field';
-import DnInput from '@digitalnatives/form-input';
-import DnButton from '@digitalnatives/button';
 import VueToast from 'vue-toast-notification';
 import VueClipboard from 'vue-clipboard2';
 import { get as httpGet } from 'axios';
@@ -124,23 +45,20 @@ Vue.use(VueToast);
 const VIMEOREGEX = /^(\d+)|https:\/\/vimeo\.com\/(\d+)$/ig;
 
 export default {
-    components: {
-        DnFormField,
-        DnInput,
-        DnButton
-    },
     data() {
         return {
             vimeo: '467336002',
             width: 1920,
             height: 1080,
-            thumbnail_url: ''
+            thumbnail_url: '',
+            isLoading: false,
+            tried: false
         };
     },
     methods: {
-        onFocus() {
-            this.$copyText(this.thumbnailSized);
-            this.$toast.open('The url was copied to your clipboard');
+        async onClick() {
+            const { data: { thumbnail_url } } = await get(`https://vimeo.com/api/oembed.json?url=https://vimeo.com/${this.vimeoId}`);
+            this.thumbnail_url = thumbnail_url ?? '';
         }
     },
     computed: {
@@ -160,16 +78,112 @@ export default {
             }
 
             try {
+                this.isLoading = true;
+
                 const response = await httpGet(`https://vimeo.com/api/oembed.json?url=https://vimeo.com/${id}`);
                 this.thumbnail_url = response?.data?.thumbnail_url ?? '';
             } catch (e) {
                 this.$toast.error('Video does not exist or vimeo is down or something...');
             }
+
+            this.isLoading = false;
+            this.tried = true;
         }, 200)
     }
 }
 </script>
 
-<style scoped>
+<style>
+    .app__title {
+        font-size: 6vw;
+        margin: 3vw;
+        text-align: center;
+    }
 
+    section {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding-right: 18vw;
+        padding-left: 18vw;
+        background: radial-gradient(50% 50% at 50% 50%, #FF842B 0%, rgba(255, 255, 255, 0) 100%);
+        min-height: 100vh;
+    }
+
+    label {
+        display: none;
+    }
+
+    input {
+        font-size: 1.5vw;
+        padding: .7em 1.5em;
+        border-radius: 9999px;
+        border: 0;
+        box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.25);
+    }
+
+    input#vimeo_id {
+        width: 100%;
+        margin-bottom: 3vw;
+    }
+
+    .grid {
+        display: grid;
+        grid-template-columns: 1fr auto 1fr;
+        grid-gap: 2.375rem;
+        align-items: center;
+        font-size: 3vw;
+    }
+
+    .grid input {
+        width: 8vw;
+    }
+
+    picture {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 9vw;
+        margin-top: 3vw;
+        position: relative;
+        width: 60vw;
+        max-height: 40vh;
+        background: #FFB72B;
+        transition: 500ms;
+    }
+
+    img {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+    }
+
+    .loading {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        animation: load 5s infinite linear;
+    }
+
+    button {
+        background: none;
+        border: none;
+        padding: 0;
+        font-size: 3vw;
+        margin: 1vw;
+        cursor: pointer;
+        color: rgb(78, 78, 78);
+    }
+
+    button:hover {
+        color: black;
+    }
+
+    @keyframes load {
+        to {
+            transform: rotate(360deg);
+        }
+    }
 </style>
