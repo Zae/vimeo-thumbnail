@@ -20,7 +20,7 @@
                     <path d="M57.448 57.4485L29.714 29.7145" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>
             </span>
-            <img v-else-if="thumbnailSized" :src="thumbnailSized" />
+            <img v-else-if="thumbnailSized && !isloading" :src="thumbnailSized" />
             <span v-else-if="!thumbnailSized && !tried">?</span>
             <span v-else class="state">wrong</span>
         </picture>
@@ -29,7 +29,7 @@
             id="thumbnailSize"
             v-clipboard:copy="thumbnailSized"
             v-clipboard:success="onCopy"
-        >copy url to clipboard!</button>
+        >copy to clipboard</button>
     </section>
 </template>
 
@@ -157,7 +157,7 @@ export default {
         position: relative;
         width: 60vw;
         max-height: 40vh;
-        background: #FFB72B;
+        background: #FF842B;
         transition: 500ms;
     }
 
@@ -167,6 +167,7 @@ export default {
         left: 0;
         width: 100%;
         height: 100%;
+        object-fit: cover;
     }
 
     .loading {
