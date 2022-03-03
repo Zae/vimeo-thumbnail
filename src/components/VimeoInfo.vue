@@ -24,11 +24,12 @@
             <span v-else-if="!thumbnailSized && !tried">?</span>
             <span v-else class="state">wrong</span>
         </picture>
+
         <button
             id="thumbnailSize"
             v-clipboard:copy="thumbnailSized"
             v-clipboard:success="onCopy"
-        >{{ thumbnailSized }}</button>
+        >copy url to clipboard!</button>
     </section>
 </template>
 
@@ -126,14 +127,13 @@ export default {
         padding: .7em 1.5em .6em;
         border-radius: 9999px;
         border: 0;
-        box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.25);
+        box-shadow: 0 0 4px rgba(0, 0, 0, 0.25);
         text-align: center;
     }
 
     input#vimeo_id {
         width: 100%;
         margin-bottom: 3vw;
-        text-align: left;
     }
 
     .grid {
