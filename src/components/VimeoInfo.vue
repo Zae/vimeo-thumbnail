@@ -8,9 +8,23 @@
             <input id="height" type="number" inputmode="numeric" v-model="height" placeholder="1080">
         </div>
         <picture :style="`aspect-ratio: ${width} / ${height}`">
-            <img v-if="thumbnailSized" :src="thumbnailSized" />
+            <span v-if="true" class="loading">
+                <svg width="198" height="198" viewBox="0 0 198 198" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M99 1V40.2" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M99 157.8V197" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M168.287 29.7145L140.553 57.4485" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M57.448 140.552L29.714 168.286" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M197 99H157.8" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M40.2 99H0.99995" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M168.287 168.286L140.553 140.552" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M57.448 57.4485L29.714 29.7145" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </span>
+            <img v-else-if="thumbnailSized" :src="thumbnailSized" />
+            <span v-else-if="!thumbnailSized && !tried">?</span>
+            <span v-else class="state">wrong</span>
         </picture>
-        <button v-if="thumbnailSized" id="thumbnailSize">{{ thumbnailSized }}</button>
+        <button id="thumbnailSize">{{ thumbnailSized }}asdasdas</button>
     </section>
 </template>
 
@@ -23,12 +37,17 @@ export default {
             vimeoId: null,
             width: 1920,
             height: 1080,
-            thumbnail_url: ''
+            thumbnail_url: '',
+            isLoading: false,
+            tried: false
         };
     },
     methods: {
         async getThumbnail() {
+            this.isLoading = true;
             const { data: { thumbnail_url } } = await get(`https://vimeo.com/api/oembed.json?url=https://vimeo.com/${this.vimeoId}`);
+            this.isLoading = false;
+            this.tried = true;
             this.thumbnail_url = thumbnail_url ?? '';
         }
     },
@@ -40,9 +59,9 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
     .app__title {
-        font-size: 7vw;
+        font-size: 6vw;
         margin: 3vw;
         text-align: center;
     }
@@ -87,9 +106,13 @@ export default {
     }
 
     picture {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 9vw;
         margin-top: 3vw;
         position: relative;
-        width: 70vw;
+        width: 60vw;
         max-height: 40vh;
         background: #FFB72B;
         transition: 500ms;
@@ -101,5 +124,32 @@ export default {
         left: 0;
         width: 100%;
         height: 100%;
+    }
+
+    .loading {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        animation: load 5s infinite linear;
+    }
+
+    button {
+        background: none;
+        border: none;
+        padding: 0;
+        font-size: 3vw;
+        margin: 1vw;
+        cursor: pointer;
+        color: rgb(78, 78, 78);
+    }
+
+    button:hover {
+        color: black;
+    }
+
+    @keyframes load {
+        to {
+            transform: rotate(360deg);
+        }
     }
 </style>
