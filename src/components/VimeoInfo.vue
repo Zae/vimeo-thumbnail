@@ -82,15 +82,17 @@ export default {
 
     input {
         font-size: 1.5vw;
-        padding: .7em 1.5em;
+        padding: .7em 1.5em .6em;
         border-radius: 9999px;
         border: 0;
         box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.25);
+        text-align: center;
     }
 
     input#vimeo_id {
         width: 100%;
         margin-bottom: 3vw;
+        text-align: left;
     }
 
     .grid {
