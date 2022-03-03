@@ -8,7 +8,7 @@
             <input id="height" type="number" inputmode="numeric" v-model="height" placeholder="1080">
         </div>
         <picture :style="`aspect-ratio: ${width} / ${height}`">
-            <span v-if="true" class="loading">
+            <span v-if="loading" class="loading">
                 <svg width="198" height="198" viewBox="0 0 198 198" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M99 1V40.2" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                     <path d="M99 157.8V197" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -116,15 +116,17 @@ export default {
 
     input {
         font-size: 1.5vw;
-        padding: .7em 1.5em;
+        padding: .7em 1.5em .6em;
         border-radius: 9999px;
         border: 0;
         box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.25);
+        text-align: center;
     }
 
     input#vimeo_id {
         width: 100%;
         margin-bottom: 3vw;
+        text-align: left;
     }
 
     .grid {
