@@ -1,122 +1,23 @@
 <template>
-  <section>
-      <header>
-          <DnFormField
-            :required="true"
-          >
-              <template v-slot:label>
-                  <label for="vimeo_id">
-                      Vimeo ID
-                  </label>
-              </template>
-
-              <template v-slot:description>
-                  HET ID VAN DE VIMEO ID
-              </template>
-
-              <div> <!-- v-slot:default -->
-                  <DnInput
-                      id="vimeo_id"
-                      type="text"
-                      inputmode="text"
-                      v-model="vimeoId"
-                  >
-                  </DnInput>
-              </div>
-          </DnFormField>
-
-          <DnFormField
-            :required="true"
-          >
-              <template v-slot:label>
-                  <label for="vimeo_id">
-                      Width
-                  </label>
-              </template>
-
-              <template v-slot:description>
-                  De gewenste breedte van de thumbnail
-              </template>
-
-              <div> <!-- v-slot:default -->
-                  <DnInput
-                      id="width"
-                      type="number"
-                      inputmode="numeric"
-                      v-model="width"
-                  >
-                  </DnInput>
-              </div>
-          </DnFormField>
-
-          <DnFormField
-            :required="true"
-          >
-              <template v-slot:label>
-                  <label for="height">
-                      Height
-                  </label>
-              </template>
-
-              <template v-slot:description>
-                  De gewenste height van de thumbnail
-              </template>
-
-              <div> <!-- v-slot:default -->
-                  <DnInput
-                      id="height"
-                      type="number"
-                      inputmode="numeric"
-                      v-model="width"
-                  >
-                  </DnInput>
-              </div>
-          </DnFormField>
-
-          <DnButton @click="onClick">CLICK ME</DnButton>
-      </header>
-
-      <article v-if="thumbnailSized">
-          <DnFormField
-              :required="true"
-              :readonly="true"
-          >
-              <template v-slot:label>
-                  <label for="height">
-                      URL
-                  </label>
-              </template>
-
-              <div> <!-- v-slot:default -->
-                  <DnInput
-                      :readonly="true"
-                      id="thumbnailSize"
-                      type="text"
-                      inputmode="text"
-                      v-model="thumbnailSized"
-                  >
-                  </DnInput>
-              </div>
-          </DnFormField>
-
-          <img :src="thumbnailSized" style="max-width: 100%" />
-      </article>
-  </section>
-
+    <section>
+        <h1 class="app__title">vimeo poster image</h1>
+        <input id="vimeo_id" type="text" inputmode="text" v-model="vimeoId" placeholder="your vimeo url" @change="getThumbnail">
+        <div class="grid">
+            <input id="width" type="number" inputmode="numeric" v-model="width" placeholder="1920">
+            x
+            <input id="height" type="number" inputmode="numeric" v-model="height" placeholder="1080">
+        </div>
+        <picture :style="`aspect-ratio: ${width} / ${height}`">
+            <img v-if="thumbnailSized" :src="thumbnailSized" />
+        </picture>
+        <button v-if="thumbnailSized" id="thumbnailSize">{{ thumbnailSized }}</button>
+    </section>
 </template>
 
 <script>
-import DnFormField from '@digitalnatives/form-field';
-import DnInput from '@digitalnatives/form-input';
-import DnButton from '@digitalnatives/button';
 import { get } from 'axios';
 
 export default {
-    components: {
-        DnFormField,
-        DnInput,
-        DnButton
-    },
     data() {
         return {
             vimeoId: null,
@@ -126,7 +27,7 @@ export default {
         };
     },
     methods: {
-        async onClick() {
+        async getThumbnail() {
             const { data: { thumbnail_url } } = await get(`https://vimeo.com/api/oembed.json?url=https://vimeo.com/${this.vimeoId}`);
             this.thumbnail_url = thumbnail_url ?? '';
         }
@@ -140,5 +41,65 @@ export default {
 </script>
 
 <style scoped>
+    .app__title {
+        font-size: 7vw;
+        margin: 3vw;
+        text-align: center;
+    }
 
+    section {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding-right: 18vw;
+        padding-left: 18vw;
+        background: radial-gradient(50% 50% at 50% 50%, #FF842B 0%, rgba(255, 255, 255, 0) 100%);
+        min-height: 100vh;
+    }
+
+    label {
+        display: none;
+    }
+
+    input {
+        font-size: 1.5vw;
+        padding: .7em 1.5em;
+        border-radius: 9999px;
+        border: 0;
+        box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.25);
+    }
+
+    input#vimeo_id {
+        width: 100%;
+        margin-bottom: 3vw;
+    }
+
+    .grid {
+        display: grid;
+        grid-template-columns: 1fr auto 1fr;
+        grid-gap: 2.375rem;
+        align-items: center;
+        font-size: 3vw;
+    }
+
+    .grid input {
+        width: 8vw;
+    }
+
+    picture {
+        margin-top: 3vw;
+        position: relative;
+        width: 70vw;
+        max-height: 40vh;
+        background: #FFB72B;
+        transition: 500ms;
+    }
+
+    img {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+    }
 </style>
