@@ -1,7 +1,7 @@
 <template>
     <section>
         <h1 class="app__title">vimeo poster image</h1>
-        <input id="vimeo_id" type="text" inputmode="text" v-model="vimeo" placeholder="your vimeo url">
+        <input id="vimeo_id" type="text" inputmode="text" v-model="vimeo" placeholder="your vimeo url or ID">
         <div class="grid">
             <input id="width" type="number" inputmode="numeric" v-model="width" placeholder="1920" step="100">
             x
@@ -20,7 +20,7 @@
                     <path d="M57.448 57.4485L29.714 29.7145" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>
             </span>
-            <img v-else-if="thumbnailSized && !isLoading" :src="thumbnailSized" />
+            <img v-else-if="thumbnailSized && !isLoading" :src="thumbnailSized" alt="" />
             <span v-else-if="!thumbnailSized && !tried">?</span>
             <span v-else class="state">wrong</span>
         </picture>
@@ -34,15 +34,7 @@
 </template>
 
 <script>
-import Vue from 'vue';
-import VueToast from 'vue-toast-notification';
-import VueClipboard from 'vue-clipboard2';
 import debounce from 'lodash/debounce';
-
-import 'vue-toast-notification/dist/theme-sugar.css';
-
-Vue.use(VueClipboard);
-Vue.use(VueToast);
 
 const VIMEOREGEX = /^(?:(\d+)|https:\/\/vimeo\.com\/(\d+))$/ig;
 

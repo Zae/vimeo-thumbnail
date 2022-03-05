@@ -1,10 +1,15 @@
-import Vue from 'vue';
+import { createApp } from 'vue';
+import VueToast from 'vue-toast-notification';
+import VueClipboard from 'vue3-clipboard';
+import 'vue-toast-notification/dist/theme-sugar.css';
+
 import App from './App.vue';
 
-const el = document.getElementById('app');
+const app = createApp(App);
 
-// eslint-disable-next-line no-new
-export default new Vue({
-    el,
-    render: h => h(App)
-});
+app.use(VueToast);
+app.use(VueClipboard, {
+    autoSetContainer: true,
+    appendToBody: false,
+})
+app.mount('#app');
