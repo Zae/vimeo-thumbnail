@@ -37,17 +37,14 @@
 import Vue from 'vue';
 import VueToast from 'vue-toast-notification';
 import VueClipboard from 'vue-clipboard2';
-import { get as httpGet } from 'axios';
 import debounce from 'lodash/debounce';
-import get from 'lodash/get';
 
-// import 'vue-toast-notification/dist/theme-default.css';
 import 'vue-toast-notification/dist/theme-sugar.css';
 
 Vue.use(VueClipboard);
 Vue.use(VueToast);
 
-const VIMEOREGEX = /^(\d+)|https:\/\/vimeo\.com\/(\d+)$/ig;
+const VIMEOREGEX = /^(?:(\d+)|https:\/\/vimeo\.com\/(\d+))$/ig;
 
 export default {
     data() {
@@ -61,10 +58,6 @@ export default {
         };
     },
     methods: {
-        async onClick() {
-            const { data: { thumbnail_url } } = await get(`https://vimeo.com/api/oembed.json?url=https://vimeo.com/${this.vimeoId}`);
-            this.thumbnail_url = thumbnail_url ?? '';
-        },
         onCopy() {
             this.$toast.success('Copied to clipboard!');
         }
@@ -75,8 +68,7 @@ export default {
         },
         vimeoId() {
             const matches = [...this.vimeo.matchAll(VIMEOREGEX)];
-
-            return get(matches, '0.2', get(matches, '0.1', null));
+            return matches?.[0]?.[1] ?? matches?.[0]?.[2] ?? null;
         }
     },
     watch: {
@@ -88,8 +80,10 @@ export default {
             try {
                 this.isLoading = true;
 
-                const response = await httpGet(`https://vimeo.com/api/oembed.json?url=https://vimeo.com/${id}`);
-                this.thumbnail_url = response?.data?.thumbnail_url ?? '';
+                const response = await fetch(`https://vimeo.com/api/oembed.json?url=https://vimeo.com/${id}`);
+                const data = await response.json();
+
+                this.thumbnail_url = data?.thumbnail_url ?? '';
             } catch (e) {
                 this.$toast.error('Video does not exist or vimeo is down or something...');
             }
@@ -101,7 +95,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
     .app__title {
         font-size: 6vw;
         margin: 3vw;

@@ -12,7 +12,6 @@
     "@digitalnatives/form-field": "^3.0.1",
     "@digitalnatives/form-input": "^3.2.0",
     "@digitalnatives/icon": "^4.1.0",
-    "axios": "^0.26.0",
     "lodash": "^4.17.21",
     "vue": "^2.6.0",
     "vue-clipboard2": "^0.3.3",
