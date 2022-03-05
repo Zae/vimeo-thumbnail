@@ -5,8 +5,6 @@ const el = document.getElementById('app');
 
 // eslint-disable-next-line no-new
 export default new Vue({
-    el: el,
-    render: (h => {
-        return h(App);
-    })
+    el,
+    render: h => h(App)
 });
