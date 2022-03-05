@@ -7,7 +7,7 @@
             x
             <input id="height" type="number" inputmode="numeric" v-model="height" placeholder="1080" step="100">
         </div>
-        <picture :style="`aspect-ratio: ${width} / ${height}`">
+        <picture>
             <span v-if="isLoading" class="loading">
                 <svg width="198" height="198" viewBox="0 0 198 198" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M99 1V40.2" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -145,6 +145,7 @@ export default {
         max-height: 40vh;
         background: #FF842B;
         transition: 500ms;
+        aspect-ratio: v-bind(width) / v-bind(height);
     }
 
     img {
