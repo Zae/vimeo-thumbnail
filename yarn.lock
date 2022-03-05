@@ -291,28 +291,6 @@
     "@babel/helper-validator-identifier" "^7.16.7"
     to-fast-properties "^2.0.0"
 
-"@digitalnatives/button@^3.0.1":
-  version "3.0.1"
-  resolved "https://registry.yarnpkg.com/@digitalnatives/button/-/button-3.0.1.tgz#f02bdaa3a52fa3a508577d09b51a346dee1be245"
-  integrity sha512-yhZ4JYwwsul78W35VSi0FZjVDz3LoQMz+7DvVnjLapICfbuz53O/jwE7Nie9b56GPib4H/9xnTzbvAl3Zxz3oQ==
-
-"@digitalnatives/form-field@^3.0.1":
-  version "3.0.1"
-  resolved "https://registry.yarnpkg.com/@digitalnatives/form-field/-/form-field-3.0.1.tgz#a4a312091ca4307c3b21cccf3f2a725d341da49c"
-  integrity sha512-AhwEV/M+/A29pM/X5V+d2zOOjGHh0gbeavDXXlKbHID6+VsP44ilEaQA2bpE9oylylc+rgSy1lCGFAjOeUVD/g==
-
-"@digitalnatives/form-input@^3.2.0":
-  version "3.2.0"
-  resolved "https://registry.yarnpkg.com/@digitalnatives/form-input/-/form-input-3.2.0.tgz#a679d2d1003fa1ce490390d32d9931d17281d575"
-  integrity sha512-KN2K3fGjXnEopE+WjnWheqt2SCMvF5OqqhBNqMpC+i/52uU6hPKwRyqddp9weIQcbjU/SEjBIc48q/tGVyxtfw==
-
-"@digitalnatives/icon@^4.1.0":
-  version "4.1.0"
-  resolved "https://registry.yarnpkg.com/@digitalnatives/icon/-/icon-4.1.0.tgz#c4405423a4113fab9ad5b652ba99c79272e218ed"
-  integrity sha512-6se/p/G6MV2crTYJDxMb4i8LxKeGTPYYwVFyYfxaD4CYkyyfCimwMHZx+XlfwnlNj1bprfN0DYDnnI1jLK0Pzg==
-  dependencies:
-    btoa "^1.2.1"
-
 "@jridgewell/resolve-uri@^3.0.3":
   version "3.0.5"
   resolved "https://registry.yarnpkg.com/@jridgewell/resolve-uri/-/resolve-uri-3.0.5.tgz#68eb521368db76d040a6315cdb24bf2483037b9c"
@@ -467,11 +445,6 @@ browserslist@^4.17.5:
     escalade "^3.1.1"
     node-releases "^2.0.2"
     picocolors "^1.0.0"
-
-btoa@^1.2.1:
-  version "1.2.1"
-  resolved "https://registry.yarnpkg.com/btoa/-/btoa-1.2.1.tgz#01a9909f8b2c93f6bf680ba26131eb30f7fa3d73"
-  integrity sha512-SB4/MIGlsiVkMcHmT+pSmIPoNDoHg+7cMzmt3Uxt628MTz2487DKSqK/fuhFBrkuqrYv5UCEnACpF4dTFNKc/g==
 
 camelcase@^5.0.0:
   version "5.3.1"
