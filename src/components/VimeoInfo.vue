@@ -20,7 +20,7 @@
                     <path d="M57.448 57.4485L29.714 29.7145" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>
             </span>
-            <img v-else-if="thumbnailSized && !isloading" :src="thumbnailSized" />
+            <img v-else-if="thumbnailSized && !isLoading" :src="thumbnailSized" />
             <span v-else-if="!thumbnailSized && !tried">?</span>
             <span v-else class="state">wrong</span>
         </picture>
