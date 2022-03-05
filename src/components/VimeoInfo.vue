@@ -27,8 +27,7 @@
 
         <button
             id="thumbnailSize"
-            v-clipboard:copy="thumbnailSized"
-            v-clipboard:success="onCopy"
+            @click="onClick"
         >copy to clipboard</button>
     </section>
 </template>
@@ -50,7 +49,8 @@ export default {
         };
     },
     methods: {
-        onCopy() {
+        async onClick() {
+            await navigator.clipboard.writeText(this.thumbnailSized);
             this.$toast.success('Copied to clipboard!');
         }
     },

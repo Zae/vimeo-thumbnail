@@ -10,8 +10,7 @@
   "dependencies": {
     "lodash": "^4.17.21",
     "vue": "^3.0.0",
-    "vue-toast-notification": "^3.0.0",
-    "vue3-clipboard": "^1.0.0"
+    "vue-toast-notification": "^3.0.0"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^2.2.0",
