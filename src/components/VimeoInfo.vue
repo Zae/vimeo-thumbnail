@@ -88,12 +88,6 @@ export default {
 </script>
 
 <style scoped>
-    .app__title {
-        font-size: 6vw;
-        margin: 3vw;
-        text-align: center;
-    }
-
     section {
         display: flex;
         flex-direction: column;
@@ -102,6 +96,12 @@ export default {
         padding-left: 18vw;
         background: radial-gradient(50% 50% at 50% 50%, #FF842B 0%, rgba(255, 255, 255, 0) 100%);
         min-height: 90vh;
+    }
+
+    .app__title {
+        font-size: 6vw;
+        margin: 3vw;
+        text-align: center;
     }
 
     label {
